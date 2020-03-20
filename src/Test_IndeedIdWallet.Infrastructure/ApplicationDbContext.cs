@@ -11,7 +11,12 @@ namespace Test_IndeedIdWallet.Infrastructure
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
 
-        protected ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext() : base()
+        {
+
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
