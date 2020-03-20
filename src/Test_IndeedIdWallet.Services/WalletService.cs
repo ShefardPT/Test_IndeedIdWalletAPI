@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Test_IndeedIdWallet.Core.Entities;
 using Test_IndeedIdWallet.Core.Models;
@@ -26,8 +27,7 @@ namespace Test_IndeedIdWallet.Services
 
             var result = new UserWalletsDTO()
             {
-                UserId = userId,
-                Wallets = new List<Wallet>()
+                UserId = userId
             };
 
             if (user == null)
@@ -36,7 +36,7 @@ namespace Test_IndeedIdWallet.Services
             }
             else
             {
-                result.Wallets = user.Wallets;
+                result.Wallets = _walletRepo.Get(w => w.UserFK.Equals(userId));
             }
 
             return OperationResultBuilder<UserWalletsDTO>.BuildSuccess(result);

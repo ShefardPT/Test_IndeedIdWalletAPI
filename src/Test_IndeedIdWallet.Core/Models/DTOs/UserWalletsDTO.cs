@@ -6,7 +6,12 @@ namespace Test_IndeedIdWallet.Core.Models.DTOs
 {
     public class UserWalletsDTO
     {
+        public UserWalletsDTO()
+        {
+            Wallets = new Wallet[0];
+        }
+
         public Guid? UserId { get; set; }
-        public ICollection<Wallet> Wallets { get; set; }
+        public IEnumerable<Wallet> Wallets { get; set; }
     }
 }
