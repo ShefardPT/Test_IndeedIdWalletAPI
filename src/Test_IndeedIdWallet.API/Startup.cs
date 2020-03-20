@@ -30,10 +30,11 @@ namespace Test_IndeedIdWallet.API
         {
             services.AddControllers();
 
-            //services.AddDbContext<ApplicationDbContext>(opt =>
-            //    {
-            //        opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            //    });
+            services.AddDbContext<ApplicationDbContext>(opt =>
+                {
+                   // opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                   opt.UseInMemoryDatabase(Configuration.GetConnectionString("InMemory"));
+                });
 
             var srvConfigurator = new ApplicationServiceConfigurator();
             srvConfigurator.ConfigureServices(services);
