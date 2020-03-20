@@ -9,11 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Test_IndeedIdWallet.Core\Test_IndeedIdWallet.Core.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\Test_IndeedIdWallet.Core\Test_IndeedIdWallet.Core.csproj" />
   </ItemGroup>
 
 </Project>

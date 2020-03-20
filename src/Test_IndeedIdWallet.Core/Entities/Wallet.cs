@@ -16,6 +16,6 @@ namespace Test_IndeedIdWallet.Core.Entities
         // Relations
         [ForeignKey("UserFK")]
         public AppUser User { get; set; }
-        public Guid UserFK { get; set; }}
+        public Guid UserFK { get; set; }
     }
 }
