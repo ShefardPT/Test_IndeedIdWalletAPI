@@ -26,7 +26,7 @@ namespace Test_IndeedIdWallet.Infrastructure
 
             // One-to-many relation of User and Wallets
             builder.Entity<AppUser>()
-                .HasMany<Wallet>()
+                .HasMany<Wallet>(u => u.Wallets)
                 .WithOne(w => w.User)
                 .HasForeignKey(w => w.UserFK)
                 .OnDelete(DeleteBehavior.Cascade);

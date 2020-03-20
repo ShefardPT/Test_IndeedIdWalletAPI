@@ -9,8 +9,8 @@ namespace Test_IndeedIdWallet.Core.Services.Interfaces
 {
     public interface IWalletService
     {
-        Task<UserWalletsDTO> GetUserWalletsAsync(Guid userId);
-        Task<UserWalletsDTO> ChangeWalletBalanceAsync(UserWalletBalanceOperationDTO userWallet);
-        Task<UserWalletsDTO> ConvertWalletCurrencyAsync(WalletConversionDTO walletConversion);
+        Task<OperationResult<UserWalletsDTO>> GetUserWalletsAsync(Guid userId);
+        Task<OperationResult<UserWalletsDTO>> ChangeWalletBalanceAsync(UserWalletBalanceOperationDTO userWallet);
+        Task<OperationResult<UserWalletsDTO>> ConvertWalletCurrencyAsync(WalletConversionDTO walletConversion);
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Test_IndeedIdWallet.Core.Entities;
-using Test_IndeedIdWallet.Core.Services;
 using Test_IndeedIdWallet.Core.Services.Interfaces;
 using Test_IndeedIdWallet.Infrastructure.Repositories;
+using Test_IndeedIdWallet.Services;
 
 namespace Test_IndeedIdWallet.API
 {
