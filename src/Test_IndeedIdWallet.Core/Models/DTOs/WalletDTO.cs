@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Test_IndeedIdWallet.Core.Models
+﻿namespace Test_IndeedIdWallet.Core.Models.DTOs
 {
     public class WalletDTO
     {
