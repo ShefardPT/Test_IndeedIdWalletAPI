@@ -39,10 +39,7 @@ namespace Test_IndeedIdWallet.API
             var srvConfigurator = new ApplicationServiceConfigurator();
             srvConfigurator.ConfigureServices(services);
 
-            services.AddMvcCore(opt =>
-                {
-                    opt.EnableEndpointRouting = true;
-                })
+            services.AddMvcCore()
                 .AddFormatterMappings()
                 .AddCors();
         }
@@ -52,7 +49,6 @@ namespace Test_IndeedIdWallet.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -64,6 +60,10 @@ namespace Test_IndeedIdWallet.API
             app.UseRouting();
             app.UseAuthorization();
             app.UseStaticFiles();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

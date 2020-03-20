@@ -19,14 +19,6 @@ namespace Test_IndeedIdWallet.API
         {
             var host = CreateHostBuilder(args).Build();
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-
-                var db = services.GetRequiredService<ApplicationDbContext>();
-                db.Database.Migrate();
-            }
-
             host.Run();
         }
 
