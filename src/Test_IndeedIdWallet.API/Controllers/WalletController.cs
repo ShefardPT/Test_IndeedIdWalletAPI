@@ -26,7 +26,7 @@ namespace Test_IndeedIdWallet.API.Controllers
                 return BadRequest("User ID was not set.");
             }
 
-            var result = await _walletSrv.GetUserWallets(userId.Value);
+            var result = await _walletSrv.GetUserWalletsAsync(userId.Value);
 
             return Ok(result);
         }
@@ -40,7 +40,7 @@ namespace Test_IndeedIdWallet.API.Controllers
                 return BadRequest("Invalid model.");
             }
 
-            var result = await _walletSrv.ChangeWalletBalance(userWallet);
+            var result = await _walletSrv.ChangeWalletBalanceAsync(userWallet);
 
             return Ok(result);
         }
@@ -55,7 +55,7 @@ namespace Test_IndeedIdWallet.API.Controllers
                 return BadRequest("Invalid model.");
             }
 
-            var result = await _walletSrv.ConvertWalletCurrency(walletConversion);
+            var result = await _walletSrv.ConvertWalletCurrencyAsync(walletConversion);
 
             return Ok(result);
         }
