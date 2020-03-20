@@ -17,7 +17,7 @@ namespace Test_IndeedIdWallet.Core.Services
             };
         }
 
-        public static OperationResult<T> BuildSuccess(T item, string[] messages)
+        public static OperationResult<T> BuildSuccess(T item, params string[] messages)
         {
             var result = BuildSuccess(item);
             result.Messages = messages;
@@ -33,7 +33,7 @@ namespace Test_IndeedIdWallet.Core.Services
             };
         }
 
-        public static OperationResult<T> BuildError(T item, string[] messages)
+        public static OperationResult<T> BuildError(T item, params string[] messages)
         {
             var result = BuildError(item);
             result.Messages = messages;

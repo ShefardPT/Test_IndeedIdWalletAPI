@@ -15,10 +15,16 @@ namespace Test_IndeedIdWallet.Services
     {
         private IUserService _userService;
         private IRepository<Wallet> _walletRepo;
-        
-        public WalletService(IUserService userService)
+        private ICurrencyService _currencySrv;
+
+        public WalletService(
+            IUserService userService,
+            IRepository<Wallet> walletRepo,
+            ICurrencyService currencySrv)
         {
             _userService = userService;
+            _walletRepo = walletRepo;
+            _currencySrv = currencySrv;
         }
 
         public async Task<OperationResult<UserWalletsDTO>> GetUserWalletsAsync(Guid userId)
@@ -44,7 +50,51 @@ namespace Test_IndeedIdWallet.Services
 
         public async Task<OperationResult<UserWalletsDTO>> ChangeWalletBalanceAsync(UserWalletBalanceOperationDTO userWallet)
         {
-            throw new NotImplementedException();
+            if (!userWallet.UserId.HasValue)
+            {
+                throw new ArgumentNullException(nameof(userWallet.UserId), "User ID must not be null.");
+            }
+
+            var user = _userService.Get(userWallet.UserId.Value);
+            if (user == null)
+            {
+                user = await _userService.CreateUserAsync(userWallet.UserId.Value);
+            }
+
+            if (!_currencySrv.IsExists(userWallet.Wallet.Currency))
+            {
+                return OperationResultBuilder<UserWalletsDTO>
+                    .BuildError(null, "Currency does not exist or is not supported.");
+            }
+
+            var wallet = _walletRepo.Data
+                .FirstOrDefault(w =>
+                    w.UserFK.Equals(userWallet.UserId.Value) &&
+                    string.Equals(w.CurrencyISOCode, userWallet.Wallet.Currency, StringComparison.InvariantCultureIgnoreCase));
+
+            if (wallet == null)
+            {
+                wallet = new Wallet()
+                {
+                    UserFK = userWallet.UserId.Value,
+                    Amount = userWallet.Wallet.Amount,
+                    CurrencyISOCode = userWallet.Wallet.Currency
+                };
+
+                wallet = await _walletRepo.AddAsync(wallet);
+            }
+
+            wallet.Amount += userWallet.Wallet.Amount;
+
+            if (wallet.Amount < 0)
+            {
+                return OperationResultBuilder<UserWalletsDTO>.BuildError(null,
+                    "Operation rejected, insufficient funds.");
+            }
+
+            wallet = await _walletRepo.UpdateAsync(wallet);
+
+            return await GetUserWalletsAsync(user.Id);
         }
 
         public async Task<OperationResult<UserWalletsDTO>> ConvertWalletCurrencyAsync(WalletConversionDTO walletConversion)

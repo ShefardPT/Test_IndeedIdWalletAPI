@@ -24,6 +24,10 @@ namespace Test_IndeedIdWallet.Infrastructure
         {
             base.OnModelCreating(builder);
 
+            // Indexation
+            builder.Entity<Wallet>()
+                .HasIndex(w => w.CurrencyISOCode);
+
             // One-to-many relation of User and Wallets
             builder.Entity<AppUser>()
                 .HasMany<Wallet>(u => u.Wallets)
