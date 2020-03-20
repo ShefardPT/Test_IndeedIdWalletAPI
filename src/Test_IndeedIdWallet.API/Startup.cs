@@ -30,15 +30,18 @@ namespace Test_IndeedIdWallet.API
         {
             services.AddControllers();
 
-            services.AddDbContext<ApplicationDbContext>(opt =>
-                {
-                    opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                });
+            //services.AddDbContext<ApplicationDbContext>(opt =>
+            //    {
+            //        opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //    });
 
             var srvConfigurator = new ApplicationServiceConfigurator();
             srvConfigurator.ConfigureServices(services);
 
-            services.AddMvcCore()
+            services.AddMvcCore(opt =>
+                {
+                    opt.EnableEndpointRouting = true;
+                })
                 .AddFormatterMappings()
                 .AddCors();
         }
@@ -49,13 +52,17 @@ namespace Test_IndeedIdWallet.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler();
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseStaticFiles();
         }
     }
 }
