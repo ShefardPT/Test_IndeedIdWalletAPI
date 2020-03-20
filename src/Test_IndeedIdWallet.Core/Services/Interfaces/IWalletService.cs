@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Test_IndeedIdWallet.Core.Models;
+using Test_IndeedIdWallet.Core.Models.DTOs;
 
 namespace Test_IndeedIdWallet.Core.Services.Interfaces
 {

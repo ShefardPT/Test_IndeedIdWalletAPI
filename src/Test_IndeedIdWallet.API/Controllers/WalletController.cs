@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Test_IndeedIdWallet.Core.Models;
+using Test_IndeedIdWallet.Core.Models.DTOs;
 using Test_IndeedIdWallet.Core.Services.Interfaces;
 
 namespace Test_IndeedIdWallet.API.Controllers
