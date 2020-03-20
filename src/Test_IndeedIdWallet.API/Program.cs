@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Test_IndeedIdWalletAPI
+namespace Test_IndeedIdWallet.API
 {
     public class Program
     {

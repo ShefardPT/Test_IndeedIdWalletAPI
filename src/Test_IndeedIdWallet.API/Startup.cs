@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Test_IndeedIdWalletAPI
+namespace Test_IndeedIdWallet.API
 {
     public class Startup
     {
@@ -41,11 +41,6 @@ namespace Test_IndeedIdWalletAPI
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
