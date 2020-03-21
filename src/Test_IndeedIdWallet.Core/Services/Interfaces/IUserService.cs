@@ -9,6 +9,6 @@ namespace Test_IndeedIdWallet.Core.Services.Interfaces
     public interface IUserService
     {
         AppUser Get(Guid userId);
-        Task<AppUser> CreateUserAsync(Guid userId);
+        Task<AppUser> CreateUserAsync();
     }
 }

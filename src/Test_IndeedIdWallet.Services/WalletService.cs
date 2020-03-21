@@ -27,7 +27,8 @@ namespace Test_IndeedIdWallet.Services
             _currencySrv = currencySrv;
         }
 
-        public async Task<OperationResult<UserWalletsDTO>> GetUserWalletsAsync(Guid userId)
+        public async Task<OperationResult<UserWalletsDTO>> GetUserWalletsAsync
+            (Guid userId)
         {
             var user = _userService.Get(userId);
 
@@ -38,7 +39,7 @@ namespace Test_IndeedIdWallet.Services
 
             if (user == null)
             {
-                user = await _userService.CreateUserAsync(userId);
+                user = await _userService.CreateUserAsync();
             }
             else
             {
@@ -48,7 +49,8 @@ namespace Test_IndeedIdWallet.Services
             return OperationResultBuilder<UserWalletsDTO>.BuildSuccess(result);
         }
 
-        public async Task<OperationResult<UserWalletsDTO>> ChangeWalletBalanceAsync(UserWalletBalanceOperationDTO userWallet)
+        public async Task<OperationResult<UserWalletsDTO>> ChangeWalletBalanceAsync
+            (UserWalletBalanceOperationDTO userWallet)
         {
             if (!userWallet.UserId.HasValue)
             {
@@ -58,7 +60,7 @@ namespace Test_IndeedIdWallet.Services
             var user = _userService.Get(userWallet.UserId.Value);
             if (user == null)
             {
-                user = await _userService.CreateUserAsync(userWallet.UserId.Value);
+                user = await _userService.CreateUserAsync();
             }
 
             if (!_currencySrv.IsExists(userWallet.Wallet.Currency))
@@ -97,7 +99,8 @@ namespace Test_IndeedIdWallet.Services
             return await GetUserWalletsAsync(user.Id);
         }
 
-        public async Task<OperationResult<UserWalletsDTO>> ConvertWalletCurrencyAsync(WalletConversionDTO walletConversion)
+        public async Task<OperationResult<UserWalletsDTO>> ConvertWalletCurrencyAsync
+            (WalletConversionDTO walletConversion)
         {
             if (!walletConversion.UserId.HasValue)
             {
@@ -107,7 +110,7 @@ namespace Test_IndeedIdWallet.Services
             var user = _userService.Get(walletConversion.UserId.Value);
             if (user == null)
             {
-                user = await _userService.CreateUserAsync(walletConversion.UserId.Value);
+                user = await _userService.CreateUserAsync();
                 return OperationResultBuilder<UserWalletsDTO>.BuildError(null,
                     "New user does not have actual wallets.");
             }

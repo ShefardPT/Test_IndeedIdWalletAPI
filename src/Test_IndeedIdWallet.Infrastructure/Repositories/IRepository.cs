@@ -11,7 +11,7 @@ namespace Test_IndeedIdWallet.Infrastructure.Repositories
     {
         IQueryable<T> Data { get; }
 
-        IQueryable<T> Get(Expression<Func<T, bool>> filter);
+        IQueryable<T> Get(Expression<Func<T, bool>> filter = null);
         T Add(T item);
         IEnumerable<T> Add(IEnumerable<T> items);
         Task<T> AddAsync(T item);
