@@ -1,5 +1,5 @@
 # Test_IndeedIdWalletAPI - test task for IndeedId
-ASP.NET Core WebAPI implementing user's wallet.
+ASP.NET Core WebAPI implementing user's wallet. Actual currencies and their rates should be requested from any public currency WebAPI
 
 Implemented functions:
 
