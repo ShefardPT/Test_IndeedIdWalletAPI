@@ -30,21 +30,26 @@ namespace Test_IndeedIdWallet.Services
         public async Task<OperationResult<UserWalletsDTO>> GetUserWalletsAsync
             (Guid userId)
         {
+            var result = new UserWalletsDTO();
+
             var user = _userService.Get(userId);
 
-            var result = new UserWalletsDTO()
+            if (user != null)
             {
-                UserId = userId
-            };
-
-            if (user == null)
-            {
-                user = await _userService.CreateUserAsync();
+                result.Wallets = _walletRepo
+                    .Get(w => w.UserFK.Equals(user.Id))
+                    .Select(w => new WalletDTO()
+                    {
+                        Currency = w.CurrencyISOCode,
+                        Amount = w.Amount
+                    });
             }
             else
             {
-                result.Wallets = _walletRepo.Get(w => w.UserFK.Equals(userId));
+                user = await _userService.CreateUserAsync();
             }
+
+            result.UserId = user.Id;
 
             return OperationResultBuilder<UserWalletsDTO>.BuildSuccess(result);
         }
@@ -71,15 +76,15 @@ namespace Test_IndeedIdWallet.Services
 
             var wallet = _walletRepo.Data
                 .FirstOrDefault(w =>
-                    w.UserFK.Equals(userWallet.UserId.Value) &&
+                    w.UserFK.Equals(user.Id) &&
                     string.Equals(w.CurrencyISOCode, userWallet.Wallet.Currency, StringComparison.InvariantCultureIgnoreCase));
 
             if (wallet == null)
             {
                 wallet = new Wallet()
                 {
-                    UserFK = userWallet.UserId.Value,
-                    Amount = userWallet.Wallet.Amount,
+                    UserFK = user.Id,
+                    Amount = 0,
                     CurrencyISOCode = userWallet.Wallet.Currency
                 };
 
@@ -124,7 +129,7 @@ namespace Test_IndeedIdWallet.Services
 
             var baseWallet = _walletRepo.Data
                 .FirstOrDefault(w =>
-                    w.UserFK.Equals(walletConversion.UserId) &&
+                    w.UserFK.Equals(user.Id) &&
                     string.Equals(w.CurrencyISOCode, walletConversion.BaseCurrency,
                         StringComparison.InvariantCultureIgnoreCase));
 
@@ -135,7 +140,7 @@ namespace Test_IndeedIdWallet.Services
 
             var targetWallet = _walletRepo.Data
                 .FirstOrDefault(w =>
-                    w.UserFK.Equals(walletConversion.UserId) &&
+                    w.UserFK.Equals(user.Id) &&
                     string.Equals(w.CurrencyISOCode, walletConversion.TargetCurrency,
                         StringComparison.InvariantCultureIgnoreCase));
 
@@ -143,7 +148,7 @@ namespace Test_IndeedIdWallet.Services
             {
                 targetWallet = new Wallet()
                 {
-                    UserFK = walletConversion.UserId.Value,
+                    UserFK = user.Id,
                     CurrencyISOCode = walletConversion.TargetCurrency
                 };
 

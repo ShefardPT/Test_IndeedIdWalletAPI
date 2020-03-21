@@ -8,10 +8,10 @@ namespace Test_IndeedIdWallet.Core.Models.DTOs
     {
         public UserWalletsDTO()
         {
-            Wallets = new Wallet[0];
+            Wallets = new WalletDTO[0];
         }
 
         public Guid? UserId { get; set; }
-        public IEnumerable<Wallet> Wallets { get; set; }
+        public IEnumerable<WalletDTO> Wallets { get; set; }
     }
 }

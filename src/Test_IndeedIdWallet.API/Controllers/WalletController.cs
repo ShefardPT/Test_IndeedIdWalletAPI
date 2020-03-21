@@ -20,7 +20,7 @@ namespace Test_IndeedIdWallet.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetWalletStatus([FromRoute] Guid? userId)
+        public async Task<IActionResult> GetWalletStatus(Guid? userId)
         {
             if (!userId.HasValue)
             {
@@ -29,7 +29,11 @@ namespace Test_IndeedIdWallet.API.Controllers
 
             var result = await _walletSrv.GetUserWalletsAsync(userId.Value);
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -43,7 +47,11 @@ namespace Test_IndeedIdWallet.API.Controllers
 
             var result = await _walletSrv.ChangeWalletBalanceAsync(userWallet);
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("convert")]
@@ -58,7 +66,11 @@ namespace Test_IndeedIdWallet.API.Controllers
 
             var result = await _walletSrv.ConvertWalletCurrencyAsync(walletConversion);
 
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }
