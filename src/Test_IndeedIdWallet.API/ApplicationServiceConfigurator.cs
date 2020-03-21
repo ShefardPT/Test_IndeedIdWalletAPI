@@ -19,7 +19,6 @@ namespace Test_IndeedIdWallet.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
-            services.AddScoped<ICurrencyApiClient, ExchangeRatesCurrencyApiClient>();
 
             #endregion
 
@@ -30,7 +29,7 @@ namespace Test_IndeedIdWallet.API
 
             #endregion
 
-            services.AddHttpClient();
+            services.AddHttpClient<ICurrencyApiClient, ExchangeRatesCurrencyApiClient>();
         }
     }
 }

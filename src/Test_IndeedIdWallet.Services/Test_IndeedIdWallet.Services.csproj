@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Test_IndeedIdWallet.Core\Test_IndeedIdWallet.Core.csproj" />
     <ProjectReference Include="..\Test_IndeedIdWallet.Infrastructure\Test_IndeedIdWallet.Infrastructure.csproj" />
   </ItemGroup>

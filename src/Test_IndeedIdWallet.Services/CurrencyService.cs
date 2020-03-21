@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Test_IndeedIdWallet.Core.Services.Interfaces;
 
 namespace Test_IndeedIdWallet.Services
@@ -13,16 +14,16 @@ namespace Test_IndeedIdWallet.Services
             _currencyApi = currencyApi;
         }
 
-        public bool IsExists(string currencyCode)
+        public async Task<bool> IsExists(string currencyCode)
         {
-            var currencies = _currencyApi.GetCurrencies();
+            var currencies = await _currencyApi.GetCurrencies();
 
             return currencies.Any(c => string.Equals(c, currencyCode, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public double GetConversionRate(string baseCurrency, string targetCurrency)
+        public async Task<double> GetConversionRate(string baseCurrency, string targetCurrency)
         {
-            return _currencyApi.GetConversionRate(baseCurrency, targetCurrency);
+            return await _currencyApi.GetConversionRate(baseCurrency, targetCurrency);
         }
     }
 }

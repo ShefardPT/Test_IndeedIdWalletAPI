@@ -63,7 +63,7 @@ namespace Test_IndeedIdWallet.Services
                 user = await _userService.CreateUserAsync();
             }
 
-            if (!_currencySrv.IsExists(userWallet.Wallet.Currency))
+            if (!await _currencySrv.IsExists(userWallet.Wallet.Currency))
             {
                 return OperationResultBuilder<UserWalletsDTO>
                     .BuildError(null, "Currency does not exist or is not supported.");
@@ -115,8 +115,8 @@ namespace Test_IndeedIdWallet.Services
                     "New user does not have actual wallets.");
             }
 
-            if (!_currencySrv.IsExists(walletConversion.BaseCurrency) ||
-               !_currencySrv.IsExists(walletConversion.TargetCurrency))
+            if (!await _currencySrv.IsExists(walletConversion.BaseCurrency) ||
+               !await _currencySrv.IsExists(walletConversion.TargetCurrency))
             {
                 return OperationResultBuilder<UserWalletsDTO>.BuildError(null,
                     "Currency does not exist or is not supported.");
@@ -150,7 +150,7 @@ namespace Test_IndeedIdWallet.Services
                 await _walletRepo.AddAsync(targetWallet);
             }
 
-            var conversionRate = _currencySrv.GetConversionRate
+            var conversionRate = await _currencySrv.GetConversionRate
                 (walletConversion.BaseCurrency, walletConversion.TargetCurrency);
 
             var targetCurrencyAmount = walletConversion.Amount * conversionRate;
