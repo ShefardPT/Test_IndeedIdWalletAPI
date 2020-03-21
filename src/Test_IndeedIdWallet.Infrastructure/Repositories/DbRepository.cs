@@ -40,11 +40,25 @@ namespace Test_IndeedIdWallet.Infrastructure.Repositories
             return item;
         }
 
+        public IEnumerable<T> Add(IEnumerable<T> items)
+        {
+            _table.AddRange(items);
+            _ctx.SaveChanges();
+            return items;
+        }
+
         public async Task<T> AddAsync(T item)
         {
             await _table.AddAsync(item);
             await _ctx.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<IEnumerable<T>> AddAsync(IEnumerable<T> items)
+        {
+            await _table.AddRangeAsync(items);
+            await _ctx.SaveChangesAsync();
+            return items;
         }
 
         public T Update(T item)
@@ -54,6 +68,13 @@ namespace Test_IndeedIdWallet.Infrastructure.Repositories
             return item;
         }
 
+        public IEnumerable<T> Update(IEnumerable<T> items)
+        {
+            _table.UpdateRange(items);
+            _ctx.SaveChanges();
+            return items;
+        }
+
         public async Task<T> UpdateAsync(T item)
         {
             _table.Update(item);
@@ -61,16 +82,34 @@ namespace Test_IndeedIdWallet.Infrastructure.Repositories
             return item;
         }
 
+        public async Task<IEnumerable<T>> UpdateAsync(IEnumerable<T> items)
+        {
+            _table.UpdateRange(items);
+            await _ctx.SaveChangesAsync();
+            return items;
+        }
+
         public void Delete(T item)
         {
             _table.Remove(item);
             _ctx.SaveChanges();
+        }
 
+        public void Delete(IEnumerable<T> items)
+        {
+            _table.RemoveRange(items);
+            _ctx.SaveChanges();
         }
 
         public async Task DeleteAsync(T item)
         {
             _table.Remove(item);
+            await _ctx.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(IEnumerable<T> items)
+        {
+            _table.RemoveRange(items);
             await _ctx.SaveChangesAsync();
         }
     }

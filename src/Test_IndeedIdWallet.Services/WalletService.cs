@@ -99,7 +99,64 @@ namespace Test_IndeedIdWallet.Services
 
         public async Task<OperationResult<UserWalletsDTO>> ConvertWalletCurrencyAsync(WalletConversionDTO walletConversion)
         {
-            throw new NotImplementedException();
+            if (!walletConversion.UserId.HasValue)
+            {
+                throw new ArgumentNullException(nameof(walletConversion.UserId), "User ID must not be null.");
+            }
+
+            var user = _userService.Get(walletConversion.UserId.Value);
+            if (user == null)
+            {
+                user = await _userService.CreateUserAsync(walletConversion.UserId.Value);
+                return OperationResultBuilder<UserWalletsDTO>.BuildError(null,
+                    "New user does not have actual wallets.");
+            }
+
+            if (!_currencySrv.IsExists(walletConversion.BaseCurrency) ||
+               !_currencySrv.IsExists(walletConversion.TargetCurrency))
+            {
+                return OperationResultBuilder<UserWalletsDTO>.BuildError(null,
+                    "Currency does not exist or is not supported.");
+            }
+
+            var baseWallet = _walletRepo.Data
+                .FirstOrDefault(w =>
+                    w.UserFK.Equals(walletConversion.UserId) &&
+                    string.Equals(w.CurrencyISOCode, walletConversion.BaseCurrency,
+                        StringComparison.InvariantCultureIgnoreCase));
+
+            if (baseWallet == null)
+            {
+                return OperationResultBuilder<UserWalletsDTO>.BuildError(null, "Base wallet does not exist.");
+            }
+
+            var targetWallet = _walletRepo.Data
+                .FirstOrDefault(w =>
+                    w.UserFK.Equals(walletConversion.UserId) &&
+                    string.Equals(w.CurrencyISOCode, walletConversion.TargetCurrency,
+                        StringComparison.InvariantCultureIgnoreCase));
+
+            if (targetWallet == null)
+            {
+                targetWallet = new Wallet()
+                {
+                    UserFK = walletConversion.UserId.Value,
+                    CurrencyISOCode = walletConversion.TargetCurrency
+                };
+
+                await _walletRepo.AddAsync(targetWallet);
+            }
+
+            var conversionRate = _currencySrv.GetConversionRate
+                (walletConversion.BaseCurrency, walletConversion.TargetCurrency);
+
+            var targetCurrencyAmount = walletConversion.Amount * conversionRate;
+
+            baseWallet.Amount -= walletConversion.Amount;
+            targetWallet.Amount += targetCurrencyAmount;
+            await _walletRepo.UpdateAsync(new[] { baseWallet, targetWallet });
+
+            return await GetUserWalletsAsync(user.Id);
         }
     }
 }
